@@ -601,3 +601,305 @@ ${przemek} to ${procentPrzemka}% procent kursu
 ${marcin} to ${procentMarcina}% procent kursu
 `;
 }
+// }==================================================================================================================================
+
+/*
+ * Cel zadania
+ *------------
+ * Zaimplementuj funkcję rule() w taki sposób aby wszystkie przekazane do niej tablice zostały połączone w jedną
+ *
+ *
+ * Przykład:
+ * rule([1, 2], [5, 6]) // => [1, 2, 5 , 6];
+ *
+ */
+
+/*
+ * Punkty dodatkowe
+ *-----------------
+ * - Wykorzystaj operator rest
+ * - Zapisz rozwiązanie w jednej linii
+ */
+
+function rulez(...arrays) {
+	return arrays.flat();
+}
+
+// =====================================================================================================================================
+
+/*
+ * Cel zadania
+ *------------
+ * Zaimplementuj funkcję, sprawdzającą czy pudełko jest puste.
+ *
+ *
+ */
+
+function thing(box) {
+	const boxArray = box.split("\n");
+	let reg = /\s/g;
+	const resultArrayLine = boxArray.map(elem => elem.replace(reg, ""));
+	return resultArrayLine.some(item => item === "*o*");
+}
+// =====================================================================================================================================
+/*
+ * Cel zadania
+ *------------
+ * Zaimplementuj funkcję zmieniającą tekst na pozdrowienia od Mr. Elliota, według przykładu.
+ *
+ *
+ * Przykład:
+ * greetings('hacker'); // => 'H4Ck3r'
+ * greeting('Control Is An Illusion'); // => 'C0NtR0L 15 4N 1lLu510n'
+ * greeting('Saving The World'); // => 'S4V1Ng tHe w0rLd'
+ *
+ */
+
+function greeting(message) {
+	const alphabet = {
+		a: "4",
+		e: "3",
+		i: "1",
+		o: "0",
+		s: "5",
+	};
+	const mrEllitoaText = message
+		.split("")
+		.map((letter, i) => {
+			if (alphabet[letter]) {
+				return alphabet[letter];
+			} else if (i % 2 === 0) {
+				return letter.toUpperCase();
+			} else {
+				return letter;
+			}
+		})
+		.join("");
+
+	console.log(mrEllitoaText);
+}
+
+greeting("Control Is An Illusion");
+
+// =================================================================================
+
+/*
+ * Cel zadania
+ *------------
+ * Zaimplementuj funkcję wyszukującą hashtagi w zdaniu
+ *
+ *
+ * Przykład:
+ * findTags('W 2020 #opanujeJS'); // => opanujeJS
+ * findTags('Za chwilę dodam #opanujeJS!'); // => opanujeJS
+ * findTags('Lubię tagować #yolo #love#happy #h3cker'); // => yolo, love, happy, h3cker
+ *
+ */
+
+function findTags(message) {
+	if (typeof message !== "string") {
+		throw new Error("Podaj tekst");
+	}
+	const hastagArray = message.split(" ");
+	const hastagText = [];
+	let reg = /[#!]/g;
+	hastagArray.forEach(text => {
+		if (text.startsWith("#")) {
+			hastagText.push(text);
+		}
+	});
+	const result = hastagText
+		.map(elem => elem)
+		.join("")
+		.replace(reg, "!")
+		.split("!")
+		.filter(item => item.length);
+	console.log(result);
+	return result;
+}
+
+findTags("#dominisa");
+
+//   ==============================================================================================================
+
+/*
+ * Cel zadania
+ *------------
+ * Zaimplementuj własne wersje funkcji tablicowych Array.prototype.length oraz Array.prototype.filter, bez wykorzystania tych wbudowanych.
+ *
+ *
+ * Przykład:
+ * filter([1, 2, 3, 4], isEven); // => [2, 4]
+ * length([1, 2, 3, 4]); // => 4
+ *
+ */
+
+function filter(array, callback) {
+	let arrayLength = 0;
+	let result = [];
+	const resultArray = array.map(callback);
+
+	for (number of array) {
+		arrayLength++;
+	}
+	for (let i = 0; i < arrayLength; i++) {
+		if (resultArray[i] === true) {
+			result.push(array[i]);
+		}
+	}
+	console.log(result);
+	return result;
+}
+
+function length(array) {
+	let arrayLength = 0;
+	for (index of array) {
+		arrayLength++;
+	}
+	console.log(arrayLength);
+	return arrayLength;
+}
+// =============================================================================================================================
+
+/*
+* Cel zadania
+*------------
+* Otrzymując zdanie jako parametr wejściowy, zwróć obiekt, który będzie zawierał liczbę wystąpień każdego słowa w zdaniu. Zignoruj to czy słowo jest napisane z dużej czy z małej litery.
+*
+* 
+*
+* Przykład:
+* countWords("Nauka JavaScript z kursem Opanuj JavaScript to frajda"); // => {
+  nauka: 1,
+  javascript: 2,
+  z: 1,
+  kursem: 1,
+  opanuj: 1,
+  to: 1,
+  frajda: 1
+}
+* 
+* 
+*/
+
+function countWords(sentence) {
+	const regNumberLetter = /\w+/g;
+	const result = {};
+	const wordArray = sentence.toLowerCase().match(reg);
+	wordArray.forEach(word => {
+		if ((result[word] = result[word])) {
+			result[word] += 1;
+		} else {
+			result[word] = 1;
+		}
+	});
+	return result;
+}
+// ==================================================================================================================
+/*
+ * Wprowadzenie
+ *------------
+ * Książki są identyfikowane przez numery ISBN-10. Numery te zwykle zawierają myślniki, i przykładowo wyglądają tak: 99921-58-10-7
+ *
+ * Na ISBN-10 składa się 9 cyfr (od 0 do 9) oraz jeden znak kontrolny (cyfra lub X). Znak kontrolny X reprezentuje liczbę 10.
+ *
+ * Algorytm weryfikujący wygląda następująco:
+ * (x1 * 10 + x2 * 9 + x3 * 8 + x4 * 7 + x5 * 6 + x6 * 5 + x7 * 4 + x8 * 3 + x9 * 2 + x10 * 1) % 11 == 0
+ *
+ *
+ * Przykład:
+ * Weźmy ISBN: 85-359-0277-5
+ * (8 * 10 + 5 * 9 + 3 * 8 + 5 * 7 + 9 * 6 + 0 * 5 + 2 * 4 + 7 * 3 + 7 * 2 + 5 * 1) % 11 == 0
+ * Algorytm potwierdza poprawność tego ISBN-10
+ *
+ * Cel zadania
+ *------------
+ * W oparciu o zaprezentowany powyżej algorytm, napisz funkcję sprawdzającą przekazany w formie stringa ISBN. Funkcja powinna obsłużyć ISBN z i bez myślników.
+ *
+ */
+
+function reduseArray(array) {
+	return array.reduce((total, item) => {
+		return (total += item);
+	}, 0);
+}
+
+function checkISBN(isbn) {
+	const removeDashesReg = /\w/g;
+	const arrayWithoutDashes = isbn.match(removeDashesReg).join("");
+	const multiArray = [];
+	let multiplier = 10;
+	const ISBNModullo = 11;
+	for (let i = 0; i < arrayWithoutDashes.length; i++) {
+		if (arrayWithoutDashes[i] === "X") {
+			multiArray.push((arrayWithoutDashes[i] = 10) * multiplier);
+		}
+		multiArray.push(arrayWithoutDashes[i] * multiplier);
+		multiplier--;
+	}
+
+	const arrayWithOnlyNumber = multiArray.filter(item => item > 0);
+	const result = reduseArray(arrayWithOnlyNumber);
+	if (result % ISBNModullo == 0) {
+		return true;
+	} else {
+		return false;
+	}
+}
+
+// ======================================================================================================================
+
+/*
+ * Cel zadania
+ *------------
+ * Otrzymując stringa zawierającego nawiasy kwadratowe [], klamry {} lub nawiasy okrągłe (), upewnij się że wszystkie z par są dopasowane i prawidłowo zagnieżdżone. Jeżeli wszystko się zgadza, zwróć true. W przypadku wykrycia błędów, zwróc false.
+ *
+ * Przykład: '[{()}]' => true
+ * Przykład: '[{]}' => false
+ */
+
+function Stack() {
+	this.data = [];
+}
+Stack.prototype.push = function (item) {
+	this.data.push(item);
+};
+Stack.prototype.top = function () {
+	return this.data[this.data.length - 1];
+};
+Stack.prototype.pop = function () {
+	return this.data.pop();
+};
+Stack.prototype.isEmpty = function () {
+	return !this.data.length;
+};
+
+const brackets = {
+	"[": "]",
+	"{": "}",
+	"(": ")",
+};
+
+function checkBrackets(stringWithBrackets) {
+	const openTokens = Object.keys(brackets);
+	const tokens = stringWithBrackets.split("");
+	const stack = new Stack();
+	for (const token of tokens) {
+		if (openTokens.includes(token)) {
+			stack.push(token);
+		} else if (!stack.isEmpty()) {
+			let last = stack.top();
+			let closingToken = brackets[last];
+			if (token === closingToken) {
+				stack.pop();
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+	return stack.isEmpty();
+}
+
+checkBrackets("{()}");
